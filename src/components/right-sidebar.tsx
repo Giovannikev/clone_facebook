@@ -1,7 +1,18 @@
-import { Search, MoreHorizontal, Video, Phone } from "lucide-react";
+import { Search, MoreHorizontal, Video } from "lucide-react";
+import { SectionHeader } from "@/components/ui/section-header";
+import { SponsoredItem } from "@/components/sidebar/sponsored-item";
+import { ContactItem } from "@/components/sidebar/contact-item";
+import { GroupConversationItem } from "@/components/sidebar/group-conversation-item";
+import "@/components/css/scrollbar.css";
+
+interface Contact {
+  id: number;
+  name: string;
+  online: boolean;
+}
 
 export default function RightSidebar() {
-  const contacts = [
+  const contacts: Contact[] = [
     { id: 1, name: "Jane Cooper", online: true },
     { id: 2, name: "Wade Warren", online: true },
     { id: 3, name: "Esther Howard", online: false },
@@ -14,31 +25,47 @@ export default function RightSidebar() {
     { id: 10, name: "Jacob Jones", online: false },
   ];
 
+  const sponsoredItems = [
+    {
+      title: "Learn web development",
+      url: "example.com",
+    },
+    {
+      title: "Tech gadgets on sale",
+      url: "techstore.com",
+    },
+  ];
+
+  const groupConversations = [
+    { id: "create", name: "Create new group", isCreateButton: true },
+    { id: "design", name: "Design Team", isCreateButton: false },
+    { id: "marketing", name: "Marketing Team", isCreateButton: false },
+  ];
+
   return (
-    <aside className="hidden lg:flex flex-col w-[300px] p-4 overflow-y-auto h-[calc(100vh-64px)] sticky top-16">
+    <aside className="hidden lg:flex flex-col w-[400px] p-4 overflow-y-auto h-[calc(100vh-64px)] sticky top-16 custom-scrollbar">
       <div className="mb-4">
-        <h3 className="font-semibold text-gray-500 mb-2">Sponsored</h3>
+        <SectionHeader title="Sponsored" />
+        <div className="space-y-4">
+          {sponsoredItems.map((item, index) => (
+            <SponsoredItem key={index} title={item.title} url={item.url} />
+          ))}
+        </div>
+      </div>
+
+      <div className="mb-4">
+        <SectionHeader title="Anniversaires" />
         <div className="space-y-4">
           <div className="flex items-start gap-3">
             <div className="w-[120px] h-[80px] bg-gray-200 rounded"></div>
-            <div>
-              <p className="font-medium">Learn web development</p>
-              <p className="text-xs text-gray-500">example.com</p>
-            </div>
-          </div>
-          <div className="flex items-start gap-3">
-            <div className="w-[120px] h-[80px] bg-gray-200 rounded"></div>
-            <div>
-              <p className="font-medium">Tech gadgets on sale</p>
-              <p className="text-xs text-gray-500">techstore.com</p>
-            </div>
+            <div></div>
           </div>
         </div>
       </div>
 
       <div className="border-t pt-4">
         <div className="flex items-center justify-between mb-2">
-          <h3 className="font-semibold text-gray-500">Contacts</h3>
+          <SectionHeader title="Contacts" noMargin />
           <div className="flex gap-2">
             <button className="p-1 rounded-full hover:bg-gray-200">
               <Video className="w-4 h-4" />
@@ -54,41 +81,25 @@ export default function RightSidebar() {
 
         <div className="space-y-1">
           {contacts.map((contact) => (
-            <button
+            <ContactItem
               key={contact.id}
-              className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-200 transition-colors w-full"
-            >
-              <div className="relative">
-                <div className="w-8 h-8 rounded-full bg-gray-300"></div>
-                {contact.online && (
-                  <div className="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-green-500 border-2 border-white"></div>
-                )}
-              </div>
-              <span className="font-medium">{contact.name}</span>
-            </button>
+              name={contact.name}
+              online={contact.online}
+            />
           ))}
         </div>
       </div>
 
       <div className="border-t mt-4 pt-4">
-        <h3 className="font-semibold text-gray-500 mb-2">
-          Group conversations
-        </h3>
+        <SectionHeader title="Group conversations" />
         <div className="space-y-1">
-          <button className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-200 transition-colors w-full">
-            <div className="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center">
-              <Phone className="w-4 h-4" />
-            </div>
-            <span className="font-medium">Create new group</span>
-          </button>
-          <button className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-200 transition-colors w-full">
-            <div className="w-8 h-8 rounded-full bg-gray-300"></div>
-            <span className="font-medium">Design Team</span>
-          </button>
-          <button className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-200 transition-colors w-full">
-            <div className="w-8 h-8 rounded-full bg-gray-300"></div>
-            <span className="font-medium">Marketing Team</span>
-          </button>
+          {groupConversations.map((group) => (
+            <GroupConversationItem
+              key={group.id}
+              name={group.name}
+              isCreateButton={group.isCreateButton}
+            />
+          ))}
         </div>
       </div>
     </aside>

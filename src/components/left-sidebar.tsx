@@ -1,110 +1,184 @@
+"use client";
+
+import { useState } from "react";
 import {
-  Home,
   Users,
   Bookmark,
   Calendar,
   Video,
   ShoppingBag,
   Clock,
-  ChevronDown,
+  UserIcon as UserGroup,
+  Gamepad2,
+  Heart,
+  Activity,
+  Settings,
+  HelpCircle,
+  MessageCircle,
+  Bell,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar";
+import { NavigationLink } from "@/components/sidebar/navigation-link";
+import { ShortcutItem } from "@/components/sidebar/shortcut-item";
+import { SectionHeader } from "@/components/ui/section-header";
+import { ToggleButton } from "@/components/sidebar/toggle-button";
+import "@/components/css/scrollbar.css";
+import { NavItem } from "@/types/type";
 
 export default function LeftSidebar() {
+  const [showMore, setShowMore] = useState(false);
+
+  const toggleShowMore = () => {
+    setShowMore(!showMore);
+  };
+
+  const mainNavItems: NavItem[] = [
+    {
+      path: "/friends",
+      icon: <Users className="w-6 h-6 text-blue-500" />,
+      label: "Friends",
+    },
+    {
+      path: "/saved",
+      icon: <Bookmark className="w-6 h-6 text-purple-500" />,
+      label: "Saved",
+    },
+    {
+      path: "/events",
+      icon: <Calendar className="w-6 h-6 text-red-500" />,
+      label: "Events",
+    },
+    {
+      path: "/watch",
+      icon: <Video className="w-6 h-6 text-blue-500" />,
+      label: "Watch",
+    },
+    {
+      path: "/marketplace",
+      icon: <ShoppingBag className="w-6 h-6 text-blue-500" />,
+      label: "Marketplace",
+    },
+    {
+      path: "/memories",
+      icon: <Clock className="w-6 h-6 text-blue-500" />,
+      label: "Memories",
+    },
+  ];
+
+  const extraNavItems: NavItem[] = [
+    {
+      path: "/groups",
+      icon: <UserGroup className="w-6 h-6 text-blue-500" />,
+      label: "Groups",
+    },
+    {
+      path: "/games",
+      icon: <Gamepad2 className="w-6 h-6 text-green-500" />,
+      label: "Games",
+    },
+    {
+      path: "/fundraisers",
+      icon: <Heart className="w-6 h-6 text-red-500" />,
+      label: "Fundraisers",
+    },
+    {
+      path: "/activity",
+      icon: <Activity className="w-6 h-6 text-orange-500" />,
+      label: "Recent Activity",
+    },
+    {
+      path: "/messages",
+      icon: <MessageCircle className="w-6 h-6 text-blue-500" />,
+      label: "Messages",
+    },
+    {
+      path: "/notifications",
+      icon: <Bell className="w-6 h-6 text-blue-500" />,
+      label: "Notifications",
+    },
+    {
+      path: "/settings",
+      icon: <Settings className="w-6 h-6 text-gray-500" />,
+      label: "Settings",
+    },
+    {
+      path: "/help",
+      icon: <HelpCircle className="w-6 h-6 text-gray-500" />,
+      label: "Help Center",
+    },
+  ];
+
+  const shortcuts = [
+    { path: "/groups/gaming", label: "Gaming Group" },
+    { path: "/groups/tech", label: "Tech Enthusiasts" },
+    { path: "/groups/cooking", label: "Cooking Club" },
+    { path: "/groups/fitness", label: "Fitness Fanatics" },
+    { path: "/groups/books", label: "Book Club" },
+  ];
+
   return (
-    <aside className="hidden md:flex flex-col w-[300px] p-4 overflow-y-auto h-[calc(100vh-64px)] sticky top-16 bg-transparent">
+    <aside className="hidden md:flex flex-col w-[350px] p-4 overflow-y-auto h-[calc(100vh-64px)] sticky top-16 custom-scrollbar">
       <nav className="space-y-1">
         <Link
-          to="/"
-          className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-200 transition-colors"
+          to="/profile"
+          className="flex items-center gap-3 hover:bg-gray-200 px-4 py-2 rounded-lg transition-colors"
         >
-          <Home className="w-6 h-6 text-blue-500" />
-          <span className="font-medium">Home</span>
-        </Link>
-        <Link
-          to="/friends"
-          className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-200 transition-colors"
-        >
-          <Users className="w-6 h-6 text-blue-500" />
-          <span className="font-medium">Friends</span>
-        </Link>
-        <Link
-          to="/saved"
-          className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-200 transition-colors"
-        >
-          <Bookmark className="w-6 h-6 text-purple-500" />
-          <span className="font-medium">Saved</span>
-        </Link>
-        <Link
-          to="/events"
-          className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-200 transition-colors"
-        >
-          <Calendar className="w-6 h-6 text-red-500" />
-          <span className="font-medium">Events</span>
-        </Link>
-        <Link
-          to="/watch"
-          className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-200 transition-colors"
-        >
-          <Video className="w-6 h-6 text-blue-500" />
-          <span className="font-medium">Watch</span>
-        </Link>
-        <Link
-          to="/marketplace"
-          className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-200 transition-colors"
-        >
-          <ShoppingBag className="w-6 h-6 text-blue-500" />
-          <span className="font-medium">Marketplace</span>
-        </Link>
-        <Link
-          to="/memories"
-          className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-200 transition-colors"
-        >
-          <Clock className="w-6 h-6 text-blue-500" />
-          <span className="font-medium">Memories</span>
+          <div className="w-10 h-10 rounded-full bg-gray-300 flex-shrink-0">
+            <Avatar>
+              <AvatarImage
+                src="https://github.com/shadcn.png"
+                alt="@shadcn"
+                className="rounded-full"
+              />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+          </div>
+          <p className="font-medium text-gray-700">Giovanni Kevin</p>
         </Link>
 
-        <button className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-200 transition-colors w-full">
-          <div className="flex items-center justify-center w-6 h-6 rounded-full bg-gray-300">
-            <ChevronDown className="w-4 h-4" />
-          </div>
-          <span className="font-medium">See more</span>
-        </button>
+        {mainNavItems.map((item) => (
+          <NavigationLink
+            key={item.path}
+            to={item.path}
+            icon={item.icon}
+            label={item.label}
+          />
+        ))}
+
+        {showMore && (
+          <>
+            {extraNavItems.map((item) => (
+              <NavigationLink
+                key={item.path}
+                to={item.path}
+                icon={item.icon}
+                label={item.label}
+              />
+            ))}
+          </>
+        )}
+
+        <ToggleButton showMore={showMore} onClick={toggleShowMore} />
       </nav>
 
       <div className="mt-4 pt-4 border-t">
-        <h3 className="font-semibold text-gray-500 mb-2 px-2">
-          Your shortcuts
-        </h3>
+        <SectionHeader title="Your shortcuts" />
         <div className="space-y-1">
-          <Link
-            to="/groups/gaming"
-            className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-200 transition-colors"
-          >
-            <div className="w-6 h-6 rounded bg-gray-300"></div>
-            <span className="font-medium">Gaming Group</span>
-          </Link>
-          <Link
-            to="/groups/tech"
-            className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-200 transition-colors"
-          >
-            <div className="w-6 h-6 rounded bg-gray-300"></div>
-            <span className="font-medium">Tech Enthusiasts</span>
-          </Link>
-          <Link
-            to="/groups/cooking"
-            className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-200 transition-colors"
-          >
-            <div className="w-6 h-6 rounded bg-gray-300"></div>
-            <span className="font-medium">Cooking Club</span>
-          </Link>
+          {shortcuts.map((shortcut) => (
+            <ShortcutItem
+              key={shortcut.path}
+              to={shortcut.path}
+              label={shortcut.label}
+            />
+          ))}
         </div>
       </div>
 
       <div className="mt-auto pt-4 text-xs text-gray-500 px-2">
         <p>
           Privacy · Terms · Advertising · Ad Choices · Cookies · More · Giova ©
-          2023
+          2025
         </p>
       </div>
     </aside>
