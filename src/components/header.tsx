@@ -57,7 +57,7 @@ export default function Header() {
                 )}
               </Link>
               <Link
-                to="/friends"
+                to="/reel"
                 className={`p-2 px-12 rounded-lg transition-colors relative ${
                   activeMenu === "friends"
                     ? "text-blue-600 hover:bg-blue-50"
@@ -71,7 +71,7 @@ export default function Header() {
                 )}
               </Link>
               <Link
-                to="/messages"
+                to="/marketplace"
                 className={`p-2 px-12 rounded-lg transition-colors relative ${
                   activeMenu === "messages"
                     ? "text-blue-600 hover:bg-blue-50"
@@ -85,7 +85,7 @@ export default function Header() {
                 )}
               </Link>
               <Link
-                to="/notifications"
+                to="/gaming"
                 className={`p-2 px-12 rounded-lg transition-colors relative ${
                   activeMenu === "notifications"
                     ? "text-blue-600 hover:bg-blue-50"

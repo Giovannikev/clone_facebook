@@ -73,7 +73,7 @@ export default function LeftSidebar() {
       label: "Groups",
     },
     {
-      path: "/games",
+      path: "/gaming",
       icon: <Gamepad2 className="w-6 h-6 text-green-500" />,
       label: "Games",
     },
